@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1001586980898",
+    "firebase_url": "https://cantalk-987ab.firebaseio.com",
+    "project_id": "cantalk-987ab",
+    "storage_bucket": "cantalk-987ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001586980898:android:646697ce9c142bf29a327b",
+        "android_client_info": {
+          "package_name": "com.everyone.cantalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001586980898-r95m07s7rknlugfcvh789kuear6qvmi3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.everyone.cantalk",
+            "certificate_hash": "241799d5f3ebc2b4d898886cf1b27e0b82e2dabc"
+          }
+        },
+        {
+          "client_id": "1001586980898-v18hc1k0r9nuj4tmidgh3bkvdujtqvi7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoOA0IIYTvntXd5EH4U4hoW7xdtyNXzLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001586980898-v18hc1k0r9nuj4tmidgh3bkvdujtqvi7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

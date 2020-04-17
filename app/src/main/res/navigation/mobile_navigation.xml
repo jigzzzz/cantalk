@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_chat">
+
+    <fragment
+        android:id="@+id/navigation_chat"
+        android:name="com.everyone.cantalk.ui.fragment.chat.ChatFragment"
+        android:label="@string/title_menu_chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/navigation_friend"
+        android:name="com.everyone.cantalk.ui.fragment.friend.FriendFragment"
+        android:label="@string/title_menu_friend"
+        tools:layout="@layout/fragment_friend" />
+
+</navigation>

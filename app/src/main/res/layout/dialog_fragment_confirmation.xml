@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp"
+        android:background="@color/colorBackground"
+        style="@style/Widget.MaterialComponents.CardView"
+        app:cardCornerRadius="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="7pt">
+
+            <ImageView
+                android:id="@+id/disabled_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/disabled_v1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Dialog Title"
+                android:textStyle="bold"
+                android:textSize="23sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="7pt"
+                app:layout_constraintTop_toBottomOf="@id/disabled_image" />
+
+            <TextView
+                android:id="@+id/dialog_secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Dialog Secondary Text"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_title" />
+
+            <TextView
+                android:id="@+id/dialog_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/dummy_text"
+                android:textSize="14sp"
+                android:layout_marginTop="8pt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_secondary" />
+
+            <Button
+                android:id="@+id/btn_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yes"
+                android:layout_marginTop="7pt"
+                android:layout_marginLeft="4pt"
+                android:textColor="@android:color/white"
+                app:cornerRadius="4dp"
+                android:background="@drawable/bg_button_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dialog_description" />
+
+            <Button
+                android:id="@+id/btn_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no"
+                android:layout_marginRight="4pt"
+                android:layout_marginTop="7pt"
+                android:textColor="@color/colorPrimary"
+                app:cornerRadius="4dp"
+                android:background="@drawable/bg_button_transparent"
+                app:layout_constraintEnd_toStartOf="@id/btn_yes"
+                app:layout_constraintTop_toBottomOf="@id/dialog_description" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

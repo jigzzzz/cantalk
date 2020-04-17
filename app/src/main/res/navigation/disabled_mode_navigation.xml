@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/addFriendFragment">
+
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.everyone.cantalk.ui.fragment.addfriend.AddFriendFragment"
+        android:label="AddFriendFragment"
+        tools:layout="@layout/fragment_add_friend">
+        <action
+            android:id="@+id/action_addFriendFragment_to_readingMessageFragment"
+            app:destination="@id/readingMessageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/readingMessageFragment"
+        android:name="com.everyone.cantalk.ui.fragment.readingmessage.ReadingMessageFragment"
+        android:label="ReadingMessageFragment"
+        tools:layout="@layout/fragment_reading_message">
+        <action
+            android:id="@+id/action_readingMessageFragment_to_replayingMessageFragment"
+            app:destination="@id/replayingMessageFragment" />
+        <action
+            android:id="@+id/action_readingMessageFragment_to_addFriendFragment"
+            app:destination="@id/addFriendFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/replayingMessageFragment"
+        android:name="com.everyone.cantalk.ui.fragment.replyingmessage.ReplyingMessageFragment"
+        android:label="ReplayingMessageFragment"
+        tools:layout="@layout/fragment_replying_message"/>
+
+</navigation>

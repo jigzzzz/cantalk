@@ -1,0 +1,70 @@
+package com.everyone.cantalk.ui.fragment.dialog
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import com.everyone.cantalk.R
+import com.everyone.cantalk.databinding.DialogFragmentAnnouncementBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
+class AnnouncementDialogFragment : BottomSheetDialogFragment() {
+
+    private lateinit var binding: DialogFragmentAnnouncementBinding
+
+    companion object {
+        private const val IMAGE = "image"
+        private const val TITLE = "title"
+        private const val SECONDARY = "secondary"
+
+        fun getInstance(image: Int, title: String, secondary: String) : AnnouncementDialogFragment {
+            val fg =
+                AnnouncementDialogFragment()
+            val bundle = Bundle()
+            bundle.putInt(IMAGE, image)
+            bundle.putString(TITLE, title)
+            bundle.putString(SECONDARY, secondary)
+            fg.arguments = bundle
+            return fg
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.dialog_fragment_announcement, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val image = arguments?.getInt(IMAGE)
+        val title = arguments?.getString(TITLE)
+        val secondary = arguments?.getString(SECONDARY)
+
+        if (image == 0) {
+            binding.disabledImage.visibility = View.GONE
+        }
+        else {
+            binding.disabledImage.setImageResource(image!!)
+        }
+
+        if (title.isNullOrEmpty()) {
+            binding.dialogTitle.visibility = View.GONE
+        }
+        else {
+            binding.dialogTitle.text = title
+        }
+
+        if (secondary.isNullOrEmpty()) {
+            binding.dialogSecondary.visibility = View.GONE
+        }
+        else {
+            binding.dialogSecondary.text = secondary
+        }
+    }
+}

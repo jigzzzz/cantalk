@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Cantalk</string>
+    <string name="cantalk_logo">Cantalk Logo</string>
+
+    <!--  Sign Up  -->
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="are_you_disabled">Are you disabled?</string>
+    <string name="loading">Loading</string>
+
+    <!--  Dummy  -->
+    <string name="dummy_text">Greyhound divisively hello coldly wonderfully marginally far upon excluding.</string>
+
+    <!--  Button  -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+
+    <!--  Shared Preference  -->
+    <string name="sp_id">id</string>
+    <string name="sp_name">name</string>
+    <string name="sp_email">email</string>
+    <string name="sp_password">password</string>
+    <string name="sp_is_disabled">isDisabled</string>
+    <string name="sp_is_login">isLogin</string>
+    
+    <!--  Bottom Nav Bar Menu  -->
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_menu_chat">Chat</string>
+    <string name="title_menu_friend">Friend</string>
+    <string name="image_friend_description">Picture of Your Friend</string>
+    <string name="example_name">Friend\'s Name</string>
+    <string name="title_logout_menu">Logout</string>
+    <string name="description_qr_code">QR Code for adding friend</string>
+    <string name="text_add_friend">Add me as your friend</string>
+    <string name="read_button_label">Read</string>
+    <string name="reply_button_label">Reply</string>
+    <string name="message_text_input">Message Text Input</string>
+    <string name="dot">.</string>
+    <string name="dash">-</string>
+    <string name="slice">/</string>
+    <string name="space">space</string>
+    <string name="clear">clear</string>
+    <string name="read">read</string>
+    <string name="send">send</string>
+</resources>

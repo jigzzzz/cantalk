@@ -1,6 +1,7 @@
 package com.everyone.cantalk.ui.addfriend
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -20,6 +21,10 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 class AddFriendActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
     private lateinit var binding : ActivityAddFriendBinding
+
+    companion object{
+        const val EXTRA_FRIEND_ID = "EXTRA_FRIEND_ID"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +52,27 @@ class AddFriendActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
             .check()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.barcodeScanner.stopCamera()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.barcodeScanner.setResultHandler(this)
+        binding.barcodeScanner.startCamera()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.barcodeScanner.stopCamera()
+    }
+
+
     override fun handleResult(rawResult: Result?) {
-        Toast.makeText(this, rawResult?.text!!, Toast.LENGTH_SHORT).show()
+        val intent = Intent()
+        intent.putExtra(EXTRA_FRIEND_ID, rawResult?.text)
+        setResult(RESULT_OK, intent)
+        finish()
     }
 }

@@ -1,5 +1,7 @@
 package com.everyone.cantalk.ui.fragment.chat
 
+import android.app.Activity
+import android.content.Intent
 import com.everyone.cantalk.ui.main.MainActivity
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
@@ -18,4 +20,5 @@ class ChatFragment : BaseFragment<ChatViewModel, FragmentChatBinding>(ChatViewMo
             activity?.finish()
         }
     }
+
 }

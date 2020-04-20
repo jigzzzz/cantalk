@@ -18,6 +18,7 @@ import com.everyone.cantalk.base.BaseFragment
 import com.everyone.cantalk.databinding.FragmentFriendBinding
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.ui.addfriend.AddFriendActivity
+import com.everyone.cantalk.ui.chat.guardian.ChatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,45 +27,26 @@ import com.google.firebase.database.ValueEventListener
 class FriendFragment : BaseFragment<FriendViewModel, FragmentFriendBinding>(FriendViewModel::class.java, R.layout.fragment_friend) {
 
     private val friendMutableList = mutableListOf<User>()
-    private val user by lazy { load() }
 
     private fun setAdapter() {
         val friendAdapter = FriendAdapter()
         friendAdapter.setFriendList(friendMutableList)
         binding.rvFriend.apply {
             adapter = friendAdapter
-            layoutManager = when (user.disabled) {
-                true -> GridLayoutManager(context, 2)
-                false -> LinearLayoutManager(context)
-            }
+            layoutManager = LinearLayoutManager(context)
         }
     }
 
     override fun setListener() {
         super.setListener()
-        val dbRef = FirebaseDatabase.getInstance().getReference("Users")
-
-        dbRef.addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                friendMutableList.clear()
-                p0.children.forEach{
-                    val firebaseUser = it.getValue(User::class.java)
-                    if(firebaseUser != null) {
-                        if (user.id != firebaseUser.id)
-                            friendMutableList.add(firebaseUser)
-                    }
-                }
-
-                setAdapter()
-            }
+        viewModel.getFriends(load().id).observe(this, Observer {
+            friendMutableList.clear()
+            friendMutableList.addAll(it)
+            setAdapter()
         })
 
         binding.fabAddFriend.setOnClickListener {
-            startActivity(Intent(context, AddFriendActivity::class.java))
+            activity?.startActivityForResult(Intent(context, AddFriendActivity::class.java), ChatActivity.REQUEST_CODE)
         }
     }
 

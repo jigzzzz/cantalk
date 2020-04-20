@@ -4,28 +4,21 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.everyone.cantalk.model.User
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 
-class AuthRepository {
+class UserRepository {
 
     companion object {
         @Volatile
-        var INSTANCE: AuthRepository? = null
+        var INSTANCE: UserRepository? = null
 
-        fun getInstance() : AuthRepository {
+        fun getInstance() : UserRepository {
             if (INSTANCE == null) {
-                synchronized(AuthRepository::class.java) {
+                synchronized(UserRepository::class.java) {
                     if (INSTANCE == null)
-                        INSTANCE = AuthRepository()
+                        INSTANCE = UserRepository()
                 }
             }
             return INSTANCE!!
@@ -86,7 +79,7 @@ class AuthRepository {
 
         dbRef.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
-                Log.w(AuthRepository::class.java.simpleName, "loadDataUser:onCancelled", p0.toException())
+                Log.w(UserRepository::class.java.simpleName, "loadDataUser:onCancelled", p0.toException())
             }
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -98,6 +91,33 @@ class AuthRepository {
         })
 
         return userMutableLiveData
+    }
+
+    fun getFriends(userId: String) : LiveData<List<User>> {
+        val dbRef = database.child(userId).child("friends")
+        val usersMutableLiveData : MutableLiveData<List<User>> = MutableLiveData()
+        val users : MutableList<User> = mutableListOf()
+
+        dbRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Log.w(UserRepository::class.java.simpleName, "loadDataUser:onCancelled", p0.toException())
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                users.clear()
+                p0.children.forEach{
+                    val firebaseUser = it.getValue(User::class.java)
+                    firebaseUser?.id = it.key!!
+
+                    if(firebaseUser != null) {
+                        users.add(firebaseUser)
+                    }
+                }
+                usersMutableLiveData.postValue(users)
+            }
+        })
+
+        return usersMutableLiveData
     }
 
 }

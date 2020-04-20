@@ -1,12 +1,12 @@
 package com.everyone.cantalk.ui.register
 
 import androidx.lifecycle.ViewModel
-import com.everyone.cantalk.repository.remote.AuthRepository
+import com.everyone.cantalk.repository.remote.UserRepository
 
-class RegisterViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class RegisterViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     fun firebaseSignUpWithEmail(name: String, isDisabled: Boolean, email: String, password: String, successListener: (userId: String) -> Unit, successDelete: () -> Unit, failedListener: () -> Unit) {
-        authRepository.firebaseSignUpWithEmail(name, isDisabled, email, password, successListener, successDelete, failedListener)
+        userRepository.firebaseSignUpWithEmail(name, isDisabled, email, password, successListener, successDelete, failedListener)
     }
 
 }

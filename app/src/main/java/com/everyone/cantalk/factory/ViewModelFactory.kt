@@ -3,7 +3,6 @@ package com.everyone.cantalk.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.everyone.cantalk.di.Injection
-import com.everyone.cantalk.repository.remote.AuthRepository
 import com.everyone.cantalk.ui.chat.deafblind.DeafblindChatViewModel
 import com.everyone.cantalk.ui.fragment.addfriend.AddFriendViewModel
 import com.everyone.cantalk.ui.fragment.chat.ChatViewModel
@@ -13,7 +12,6 @@ import com.everyone.cantalk.ui.fragment.readingmessage.ReplyingMessageViewModel
 import com.everyone.cantalk.ui.login.LoginViewModel
 import com.everyone.cantalk.ui.main.MainViewModel
 import com.everyone.cantalk.ui.register.RegisterViewModel
-import java.lang.IllegalArgumentException
 
 class ViewModelFactory : ViewModelProvider.Factory {
 
@@ -39,7 +37,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(Injection.provideAuthRepository())
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(Injection.provideAuthRepository())
             modelClass.isAssignableFrom(ChatViewModel::class.java) -> ChatViewModel()
-            modelClass.isAssignableFrom(FriendViewModel::class.java) -> FriendViewModel()
+            modelClass.isAssignableFrom(FriendViewModel::class.java) -> FriendViewModel(Injection.provideAuthRepository())
             modelClass.isAssignableFrom(DeafblindChatViewModel::class.java) -> DeafblindChatViewModel()
             modelClass.isAssignableFrom(AddFriendViewModel::class.java) -> AddFriendViewModel()
             modelClass.isAssignableFrom(ReadingMessageViewModel::class.java) -> ReadingMessageViewModel()

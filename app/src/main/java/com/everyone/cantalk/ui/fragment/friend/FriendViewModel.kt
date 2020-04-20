@@ -1,13 +1,14 @@
 package com.everyone.cantalk.ui.fragment.friend
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.everyone.cantalk.model.User
+import com.everyone.cantalk.repository.remote.UserRepository
 
-class FriendViewModel : ViewModel() {
+class FriendViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+    fun getFriends(userId: String) : LiveData<List<User>> {
+        return userRepository.getFriends(userId)
     }
-    val text: LiveData<String> = _text
+
 }

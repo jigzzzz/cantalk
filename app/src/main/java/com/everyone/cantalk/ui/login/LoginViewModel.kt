@@ -3,9 +3,9 @@ package com.everyone.cantalk.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.everyone.cantalk.model.User
-import com.everyone.cantalk.repository.remote.AuthRepository
+import com.everyone.cantalk.repository.remote.UserRepository
 
-class LoginViewModel(private val authRepository: AuthRepository) : ViewModel(){
+class LoginViewModel(private val userRepository: UserRepository) : ViewModel(){
 
     private var user : User = User("", "", false)
 
@@ -14,11 +14,11 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel(){
     }
 
     fun firebaseSignInWithEmail(email: String, password: String, successListener: () -> Unit, failedListener: () -> Unit) {
-        authRepository.firebaseSignInWithEmail(email, password,successListener, failedListener)
+        userRepository.firebaseSignInWithEmail(email, password,successListener, failedListener)
     }
 
     fun getCurrentUser(userId: String) : LiveData<User> {
-        return authRepository.getCurrentUserData(userId)
+        return userRepository.getCurrentUserData(userId)
     }
 
 }

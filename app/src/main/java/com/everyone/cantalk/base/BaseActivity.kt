@@ -12,6 +12,7 @@ import com.everyone.cantalk.R
 import com.everyone.cantalk.factory.ViewModelFactory
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.ui.fragment.dialog.AnnouncementDialogFragment
+import com.everyone.cantalk.ui.fragment.dialog.ConfirmationDialogFragment
 import com.everyone.cantalk.util.SharedPrefUtil
 
 abstract class BaseActivity <VM: ViewModel, BD : ViewDataBinding>(private val vm: Class<VM>, private val layout: Int) : AppCompatActivity() {
@@ -31,6 +32,16 @@ abstract class BaseActivity <VM: ViewModel, BD : ViewDataBinding>(private val vm
         val fm = supportFragmentManager
         val alertDialog = AnnouncementDialogFragment.getInstance(R.drawable.error_v1, title, secondary)
         alertDialog.show(fm, "error")
+    }
+
+    protected fun showConfirmation(title: String, secondary: String, description: String, image: Int, onPositiveButtonClicked: (clicked: Boolean) -> Unit) {
+        val fragmentManager = supportFragmentManager
+        val alertDialog = ConfirmationDialogFragment.getInstance(R.drawable.disabled_v1, title, secondary, description, object: ConfirmationDialogFragment.SetPositiveButtonListener{
+            override fun onClick(clicked: Boolean) {
+                onPositiveButtonClicked(clicked)
+            }
+        })
+        alertDialog.show(fragmentManager, "disabled_confirmation")
     }
 
     open fun setListener() {}

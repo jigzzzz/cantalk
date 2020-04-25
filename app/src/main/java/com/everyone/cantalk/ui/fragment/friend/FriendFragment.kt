@@ -13,12 +13,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
 import com.everyone.cantalk.databinding.FragmentFriendBinding
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.ui.addfriend.AddFriendActivity
 import com.everyone.cantalk.ui.chat.guardian.ChatActivity
+import com.everyone.cantalk.ui.message.MessageActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -31,6 +33,11 @@ class FriendFragment : BaseFragment<FriendViewModel, FragmentFriendBinding>(Frie
     private fun setAdapter() {
         val friendAdapter = FriendAdapter()
         friendAdapter.setFriendList(friendMutableList)
+        friendAdapter.onClickedListener(object : FriendAdapter.SetOnItemClickedListener{
+            override fun onClick(user: User) {
+                startActivity(MessageActivity.getIntent(context!!, user.id))
+            }
+        })
         binding.rvFriend.apply {
             adapter = friendAdapter
             layoutManager = LinearLayoutManager(context)

@@ -11,24 +11,23 @@ import com.everyone.cantalk.util.SharedPrefUtil
 
 class FriendAdapter : RecyclerView.Adapter<FriendAdapter.ViewHolder>() {
 
-    private lateinit var sharedPrefUtil: SharedPrefUtil
     private var friendList : List<User> = listOf()
+    private var setOnItemClickedListener : SetOnItemClickedListener? = null
 
-    abstract class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun bind(user: User)
+    interface SetOnItemClickedListener {
+        fun onClick(user: User)
     }
 
-    inner class DisabledViewHolder(private val binding: LayoutFriendItemBinding) : ViewHolder(binding.root) {
-        override fun bind(user: User) {
-            binding.name = user.name
-            Log.d("<DEBUG>", "Friend Name " + user.name)
-        }
+    fun onClickedListener(setOnItemClickedListener: SetOnItemClickedListener) {
+        this.setOnItemClickedListener = setOnItemClickedListener
     }
 
-    inner class DefaultViewHolder(private val binding: LayoutFriendItemBinding) : ViewHolder(binding.root) {
-        override fun bind(user: User) {
+    inner class ViewHolder(private val binding: LayoutFriendItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(user: User) {
             binding.name = user.name
-            Log.d("<DEBUG>", "Friend Name " + user.name)
+            binding.item.setOnClickListener {
+                setOnItemClickedListener?.onClick(user)
+            }
         }
     }
 
@@ -38,17 +37,7 @@ class FriendAdapter : RecyclerView.Adapter<FriendAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        sharedPrefUtil = SharedPrefUtil(parent.context)
-        val user = sharedPrefUtil.load()
-
-        return when (user.disabled) {
-            true -> {
-                DisabledViewHolder(LayoutFriendItemBinding.inflate(LayoutInflater.from(parent.context)))
-            }
-            false -> {
-                DefaultViewHolder(LayoutFriendItemBinding.inflate(LayoutInflater.from(parent.context)))
-            }
-        }
+        return ViewHolder(LayoutFriendItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun getItemCount(): Int = friendList.size

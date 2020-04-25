@@ -93,6 +93,25 @@ class UserRepository {
         return userMutableLiveData
     }
 
+    fun getUserData(userId: String) : LiveData<User> {
+        val dbRef = database.child(userId)
+        val userMutableLiveData : MutableLiveData<User> = MutableLiveData()
+
+        dbRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Log.w(UserRepository::class.java.simpleName, "loadDataUser:onCancelled", p0.toException())
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val user = p0.getValue(User::class.java)!!
+                user.id = userId
+                userMutableLiveData.value = user
+            }
+        })
+
+        return userMutableLiveData
+    }
+
     fun getFriends(userId: String) : LiveData<List<User>> {
         val dbRef = database.child(userId).child("friends")
         val usersMutableLiveData : MutableLiveData<List<User>> = MutableLiveData()
@@ -120,4 +139,16 @@ class UserRepository {
         return usersMutableLiveData
     }
 
+    fun addFriend(userId: String, user: User, successListener: () -> Unit, failedListener: () -> Unit) {
+        val dbRef = database.child(userId).child("friends").child(user.id)
+        dbRef.setValue(User.hashUser(
+            user
+        )).addOnCompleteListener { p0 ->
+            if (p0.isSuccessful) {
+                successListener()
+            } else {
+                failedListener()
+            }
+        }
+    }
 }

@@ -44,15 +44,11 @@ class RegisterActivity : BaseActivity<RegisterViewModel, ActivityRegisterBinding
         when(p0?.id) {
             R.id.btn_yes_disabled -> {
                 if (!disabled) {
-                    val fragmentManager = supportFragmentManager
-                    val alertDialog = ConfirmationDialogFragment.getInstance(R.drawable.disabled_v1, "Are you disabled?", "", "Your room chat will be showed for disabled person", object: ConfirmationDialogFragment.SetPositiveButtonListener{
-                        override fun onClick(clicked: Boolean) {
-                            disabled = clicked
-                            setButtonDefault(binding.btnYesDisabled)
-                            setButtonBorder(binding.btnNoDisabled)
-                        }
-                    })
-                    alertDialog.show(fragmentManager, "disabled_confirmation")
+                    showConfirmation("Are you disabled?", "", "Your room chat will be showed for disabled person", R.drawable.disabled_v1) {
+                        disabled = it
+                        setButtonDefault(binding.btnYesDisabled)
+                        setButtonBorder(binding.btnNoDisabled)
+                    }
                 }
             }
             R.id.btn_no_disabled -> {

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -40,6 +41,8 @@
         <activity
             android:name=".ui.chat.deafblind.DeafblindChatActivity" />
         <activity android:name=".ui.addfriend.AddFriendActivity" />
+        <activity android:name=".ui.message.MessageActivity"
+            android:theme="@style/AppTheme.PrimaryNoActionBar"/>
     </application>
 
 </manifest>

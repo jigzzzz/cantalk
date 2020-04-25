@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="name"
+            type="String" />
     </data>
 
     <LinearLayout
@@ -15,9 +17,11 @@
         android:background="@color/colorBackground">
 
         <TextView
+            android:id="@+id/text_information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hey Receiver's Name, There's a message from Sender' Name"
+            android:text="@{`Hey `}"
+            android:visibility="gone"
             android:textSize="20sp"
             android:layout_marginBottom="20dp"
             android:textColor="@android:color/black"/>
@@ -29,6 +33,7 @@
             android:background="@drawable/bg_button_circle"
             android:stateListAnimator="@null"
             android:text="@string/read_button_label"
+            android:visibility="gone"
             android:textSize="40sp"
             android:textAllCaps="false"
             android:textColor="@android:color/white"/>
@@ -40,12 +45,23 @@
             android:textSize="30sp"
             android:text="@string/reply_button_label"
             android:textColor="@color/colorPrimary"
+            android:visibility="gone"
             android:textAllCaps="false"
             android:stateListAnimator="@null"
             android:background="@drawable/bg_button_border"
             android:paddingTop="30dp"
             android:paddingBottom="30dp"
             android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:id="@+id/text_no_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_message"
+            android:visibility="gone"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@android:color/black"/>
 
     </LinearLayout>
 </layout>

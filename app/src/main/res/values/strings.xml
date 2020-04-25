@@ -45,4 +45,7 @@
     <string name="clear">clear</string>
     <string name="read">read</string>
     <string name="send">send</string>
+    <string name="content_description_picture">User Avatar</string>
+    <string name="message_hint">Type a message...</string>
+    <string name="no_message">There is no message</string>
 </resources>

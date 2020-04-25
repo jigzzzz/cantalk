@@ -70,27 +70,6 @@ class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>(LoginVi
                 }
             }
         })
-//        save(viewModel.getUser())
-//        when(viewModel.getUser().disabled) {
-//            true -> {
-//                startActivity(
-//                    DeafblindChatActivity.getIntent(
-//                        this,
-//                        Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-//                    )
-//                )
-//                finish()
-//            }
-//            false -> {
-//                startActivity(
-//                    ChatActivity.getIntent(
-//                        this,
-//                        Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-//                    )
-//                )
-//                finish()
-//            }
-//        }
     }
 
     private fun firebaseSignInFailed() {

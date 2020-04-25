@@ -1,5 +1,7 @@
 package com.everyone.cantalk.model
 
+import android.util.Log
+
 data class User (var id: String = "",
                  val name: String = "",
                  val disabled: Boolean = false) {
@@ -11,6 +13,15 @@ data class User (var id: String = "",
                 "name" to user.name,
                 "disabled" to user.disabled
             )
+        }
+
+        fun checkFriend(users: List<User>, userId: String) : Boolean {
+            val user: User? = users.find { it.id == userId }
+            return when(user?.id) {
+                null -> true
+                "" -> true
+                else -> false
+            }
         }
     }
 

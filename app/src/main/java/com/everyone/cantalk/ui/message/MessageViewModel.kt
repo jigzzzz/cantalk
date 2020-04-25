@@ -1,38 +1,33 @@
-package com.everyone.cantalk.ui.fragment.readingmessage
+package com.everyone.cantalk.ui.message
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.everyone.cantalk.model.Chat
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.repository.remote.ChatRepository
 import com.everyone.cantalk.repository.remote.UserRepository
 
-class ReadingMessageViewModel(private val userRepository: UserRepository, private val chatRepository: ChatRepository) : ViewModel() {
+class MessageViewModel(private val userRepository: UserRepository, private val chatRepository: ChatRepository) : ViewModel() {
 
-    fun getFriends(userId: String) : LiveData<List<User>> {
-        return userRepository.getFriends(userId)
-    }
+    fun getCurrentUser(userId: String) : LiveData<User> = userRepository.getCurrentUserData(userId)
 
-    fun readMessage(sender: String, receiver: String) : LiveData<String> {
-        val liveChats: MutableLiveData<String> = MutableLiveData()
+    fun sendMessage(chat: Chat) = chatRepository.sendMessage(chat)
+
+    fun readMessage(sender: String, receiver: String) : LiveData<List<Chat>> {
+
+        val liveChats: MutableLiveData<List<Chat>> = MutableLiveData()
         val chats: MutableList<Chat> = mutableListOf()
 
-        chatRepository.readMessage{
+        chatRepository.readMessage(sender, receiver){
             chats.clear()
             it.children.forEach{dataSnapshot ->
                 val chat : Chat = dataSnapshot.getValue(Chat::class.java)!!
                 if (chat.receiver.equals(receiver) && chat.sender.equals(sender) || chat.receiver.equals(sender) && chat.sender.equals(receiver))
                     chats.add(chat)
             }
+            liveChats.postValue(chats)
         }
-
-        if (chats[chats.lastIndex].sender.equals(receiver))
-            liveChats.postValue(chats[chats.lastIndex].message)
-        else
-            liveChats.postValue("")
-
         return liveChats
     }
 

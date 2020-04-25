@@ -8,14 +8,21 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.everyone.cantalk.R
+import com.everyone.cantalk.base.BaseActivity
+import com.everyone.cantalk.databinding.ActivityChatBinding
+import com.everyone.cantalk.model.User
 import com.everyone.cantalk.ui.addfriend.AddFriendActivity
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : BaseActivity<ChatViewModel, ActivityChatBinding>(ChatViewModel::class.java, R.layout.activity_chat) {
+
+    private val friends : MutableList<User> = mutableListOf()
 
     companion object {
         const val REQUEST_CODE = 202
@@ -29,12 +36,9 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_friend,
@@ -46,13 +50,40 @@ class ChatActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    override fun setListener() {
+        super.setListener()
+        viewModel.getFriends(load().id).observe(this, Observer {
+            friends.clear()
+            friends.addAll(it)
+        })
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
                 val friendId = data?.getStringExtra(AddFriendActivity.EXTRA_FRIEND_ID) ?: ""
-                Toast.makeText(this, friendId, Toast.LENGTH_SHORT).show()
+                showConfirmation("Do you want to add your friend?", "", "Your friend will be added to you friend list", R.drawable.disabled_v1) {
+                    when(User.checkFriend(friends, friendId)){
+                        true -> {
+                            viewModel.getCurrentUser(friendId).observe(this, Observer {
+                                Toast.makeText(this@ChatActivity, friendId, Toast.LENGTH_SHORT).show()
+                                viewModel.addFriend(load().id, it, {
+                                    viewModel.addFriend(friendId, load(), {
+                                        showError("Friend added", "Yeayy! You are successfully added your friend")
+                                    }, {
+                                        showError("Failed add your friend", "Please try again to add your friend")
+                                    })
+                                }, {
+                                    showError("Failed add your friend", "Please try again to add your friend")
+                                })
+                            })
+                        }
+                        false -> {
+                            showError("You are already be friend", "Let's be friend to the other")
+                        }
+                    }
+                }
             }
         }
     }

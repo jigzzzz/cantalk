@@ -6,7 +6,7 @@ import com.everyone.cantalk.di.Injection
 import com.everyone.cantalk.ui.chat.deafblind.DeafblindChatViewModel
 import com.everyone.cantalk.ui.chat.guardian.ChatViewModel
 import com.everyone.cantalk.ui.fragment.addfriend.AddFriendViewModel
-import com.everyone.cantalk.ui.fragment.chat.ListChatViewModel
+import com.everyone.cantalk.ui.fragment.chat.ChatsViewModel
 import com.everyone.cantalk.ui.fragment.friend.FriendViewModel
 import com.everyone.cantalk.ui.fragment.readingmessage.ReadingMessageViewModel
 import com.everyone.cantalk.ui.fragment.readingmessage.ReplyingMessageViewModel
@@ -39,7 +39,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(Injection.provideUserRepository())
-            modelClass.isAssignableFrom(ListChatViewModel::class.java) -> ListChatViewModel()
+            modelClass.isAssignableFrom(ChatsViewModel::class.java) -> ChatsViewModel()
             modelClass.isAssignableFrom(FriendViewModel::class.java) -> FriendViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(DeafblindChatViewModel::class.java) -> DeafblindChatViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(AddFriendViewModel::class.java) -> AddFriendViewModel(Injection.provideUserRepository())

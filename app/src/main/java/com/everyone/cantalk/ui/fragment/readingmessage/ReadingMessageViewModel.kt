@@ -11,9 +11,7 @@ import com.everyone.cantalk.repository.remote.UserRepository
 
 class ReadingMessageViewModel(private val userRepository: UserRepository, private val chatRepository: ChatRepository) : ViewModel() {
 
-    fun getFriends(userId: String) : LiveData<List<User>> {
-        return userRepository.getFriends(userId)
-    }
+    fun getFriends(userId: String) : LiveData<List<User>> = userRepository.getFriends(userId)
 
     fun readMessage(sender: String, receiver: String) : LiveData<String> {
         val liveChats: MutableLiveData<String> = MutableLiveData()
@@ -26,12 +24,11 @@ class ReadingMessageViewModel(private val userRepository: UserRepository, privat
                 if (chat.receiver.equals(receiver) && chat.sender.equals(sender) || chat.receiver.equals(sender) && chat.sender.equals(receiver))
                     chats.add(chat)
             }
+            if (chats[chats.size-1].sender.equals(receiver))
+                liveChats.postValue(chats[chats.lastIndex].message)
+            else
+                liveChats.postValue("")
         }
-
-        if (chats[chats.lastIndex].sender.equals(receiver))
-            liveChats.postValue(chats[chats.lastIndex].message)
-        else
-            liveChats.postValue("")
 
         return liveChats
     }

@@ -4,12 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,6 +18,8 @@ import com.everyone.cantalk.base.BaseActivity
 import com.everyone.cantalk.databinding.ActivityChatBinding
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.ui.addfriend.AddFriendActivity
+import com.everyone.cantalk.ui.main.MainActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class ChatActivity : BaseActivity<ChatViewModel, ActivityChatBinding>(ChatViewModel::class.java, R.layout.activity_chat) {
 
@@ -86,6 +87,23 @@ class ChatActivity : BaseActivity<ChatViewModel, ActivityChatBinding>(ChatViewMo
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.app_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.navigation_logout -> {
+                FirebaseAuth.getInstance().signOut()
+                startActivity(MainActivity.getIntent(this))
+                logout()
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

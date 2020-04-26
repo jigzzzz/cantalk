@@ -39,7 +39,7 @@
     <string name="reply_button_label">Reply</string>
     <string name="message_text_input">Message Text Input</string>
     <string name="dot">.</string>
-    <string name="dash">-</string>
+    <string name="dash">_</string>
     <string name="slice">/</string>
     <string name="space">space</string>
     <string name="clear">clear</string>

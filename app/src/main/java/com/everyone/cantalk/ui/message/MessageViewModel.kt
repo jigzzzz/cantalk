@@ -19,7 +19,7 @@ class MessageViewModel(private val userRepository: UserRepository, private val c
         val liveChats: MutableLiveData<List<Chat>> = MutableLiveData()
         val chats: MutableList<Chat> = mutableListOf()
 
-        chatRepository.readMessage(sender, receiver){
+        chatRepository.readMessage{
             chats.clear()
             it.children.forEach{dataSnapshot ->
                 val chat : Chat = dataSnapshot.getValue(Chat::class.java)!!

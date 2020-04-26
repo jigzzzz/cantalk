@@ -1,6 +1,7 @@
 package com.everyone.cantalk.ui.fragment.addfriend
 
 import android.graphics.Bitmap
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
@@ -20,9 +21,18 @@ class AddFriendFragment : BaseFragment<AddFriendViewModel, FragmentAddFriendBind
         binding.imageQrCode.setOnClickListener {
             findNavController().navigate(R.id.action_addFriendFragment_to_readingMessageFragment)
         }
+
+        viewModel.getFriends(load().id).observe(this, Observer {
+            when(it.size) {
+                0 -> {}
+                else -> {
+                    findNavController().navigate(R.id.action_addFriendFragment_to_readingMessageFragment)
+                }
+            }
+        })
     }
 
-    fun generateQrCode() {
+    private fun generateQrCode() {
         val text : String = load().id
         val multiFormatWriter = MultiFormatWriter()
         try {

@@ -114,20 +114,45 @@ data class MorseUtil(private val morseCode : Map<String, Any?> = mapOf(
         fun morseCodeConverter(message: String) : String {
             var result = ""
             val morseCode = MorseUtil().morseCode
-            for(i in 0 until message.length-1) {
+            val len = message.length
+            for(i in 0 until len) {
                 if (morseCode[message[i].toString()] != null) {
                     result += morseCode[message[i].toString()]
-//                    if(message[i].toString().trim().isNotEmpty() || message[i].toString().trim().isNotBlank())
-//                        result += '/'
+                    if((message[i].toString().trim().isNotEmpty() || message[i].toString().trim().isNotBlank()) && i < message.length-1)
+                        result += '/'
                 }
             }
+            result = result.replace("/ ", " ")
+            result = result.replace(" /", "")
+
             return result.trim()
+        }
+
+        fun alphabetConverter(message: String) : String {
+            val arrCodes = message.split(" ")
+            var letters = ""
+            val morseCode = MorseUtil().morseCode
+
+            for(i in arrCodes) {
+                val code = i.split("/")
+                var prevLetter = ""
+                for (j in code) {
+                    prevLetter = morseCode[j].toString()
+                    letters += if (prevLetter != "null") prevLetter else "/$j/"
+                }
+                letters += " "
+            }
+
+            letters = letters.replace("/ ", " ")
+            letters = letters.replace(" /", " ")
+
+            return letters.trim()
         }
 
         fun readMorse(context: Context, codeMessage: String) {
             val vibrator = context.getSystemService(VIBRATOR_SERVICE) as Vibrator
-            for (j in 0 until codeMessage.length-1) {
-                when (codeMessage[j]) {
+            for (element in codeMessage) {
+                when (element) {
                     '.' -> {
                         if (Build.VERSION.SDK_INT >= 26) {
                             vibrator.vibrate(

@@ -36,6 +36,15 @@
         android:id="@+id/replayingMessageFragment"
         android:name="com.everyone.cantalk.ui.fragment.replyingmessage.ReplyingMessageFragment"
         android:label="ReplayingMessageFragment"
-        tools:layout="@layout/fragment_replying_message"/>
+        tools:layout="@layout/fragment_replying_message">
+        <argument
+            android:name="friendId"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_replayingMessageFragment_to_readingMessageFragment"
+            app:destination="@id/readingMessageFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/replayingMessageFragment"/>
+    </fragment>
 
 </navigation>

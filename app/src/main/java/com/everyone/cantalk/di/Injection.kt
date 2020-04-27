@@ -1,7 +1,7 @@
 package com.everyone.cantalk.di
 
-import com.everyone.cantalk.repository.remote.ChatRepository
-import com.everyone.cantalk.repository.remote.UserRepository
+import com.everyone.cantalk.repository.ChatRepository
+import com.everyone.cantalk.repository.UserRepository
 
 class Injection {
     companion object {

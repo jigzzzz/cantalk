@@ -1,4 +1,4 @@
-package com.everyone.cantalk.repository.remote
+package com.everyone.cantalk.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -18,7 +18,8 @@ class UserRepository {
             if (INSTANCE == null) {
                 synchronized(UserRepository::class.java) {
                     if (INSTANCE == null)
-                        INSTANCE = UserRepository()
+                        INSTANCE =
+                            UserRepository()
                 }
             }
             return INSTANCE!!

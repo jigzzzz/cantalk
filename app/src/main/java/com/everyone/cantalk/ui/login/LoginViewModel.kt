@@ -3,7 +3,7 @@ package com.everyone.cantalk.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.everyone.cantalk.model.User
-import com.everyone.cantalk.repository.remote.UserRepository
+import com.everyone.cantalk.repository.UserRepository
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel(){
 

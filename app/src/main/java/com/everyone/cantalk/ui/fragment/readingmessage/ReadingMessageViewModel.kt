@@ -2,12 +2,11 @@ package com.everyone.cantalk.ui.fragment.readingmessage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.everyone.cantalk.model.Chat
 import com.everyone.cantalk.model.User
-import com.everyone.cantalk.repository.remote.ChatRepository
-import com.everyone.cantalk.repository.remote.UserRepository
+import com.everyone.cantalk.repository.ChatRepository
+import com.everyone.cantalk.repository.UserRepository
 
 class ReadingMessageViewModel(private val userRepository: UserRepository, private val chatRepository: ChatRepository) : ViewModel() {
 

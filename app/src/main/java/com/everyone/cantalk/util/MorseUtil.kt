@@ -5,6 +5,7 @@ import android.content.Context.VIBRATOR_SERVICE
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.view.View
 import androidx.core.content.ContextCompat.getSystemService
 
 data class MorseUtil(private val morseCode : Map<String, Any?> = mapOf(

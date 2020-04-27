@@ -7,9 +7,12 @@ import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
 import com.everyone.cantalk.databinding.FragmentChatBinding
 import com.everyone.cantalk.model.Chat
+import com.everyone.cantalk.model.Token
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.ui.message.MessageActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.iid.FirebaseInstanceId
 
 class ChatsFragment : BaseFragment<ChatsViewModel, FragmentChatBinding>(ChatsViewModel::class.java, R.layout.fragment_chat) {
 
@@ -34,6 +37,15 @@ class ChatsFragment : BaseFragment<ChatsViewModel, FragmentChatBinding>(ChatsVie
             adapter = chatAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+        updateToken(FirebaseInstanceId.getInstance().token ?: "")
+    }
+
+    private fun updateToken(refreshToken: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val dbRef = FirebaseDatabase.getInstance().getReference("Tokens")
+        val token = Token(refreshToken)
+        dbRef.child(user?.uid ?: "").setValue(token)
     }
 
     private fun getChats() {

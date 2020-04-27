@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
@@ -41,10 +42,12 @@ class ReplyingMessageFragment : BaseFragment<ReplyingMessageViewModel, FragmentR
         when(p0?.id) {
             R.id.button_clear -> {
                 message = ""
-                updateMessage()
+                vibrate(50)
+                binding.textMessage.setText("")
             }
             R.id.button_underscored -> {
                 message += '_'
+                vibrate(50)
                 updateMessage()
             }
             R.id.button_send -> {
@@ -58,7 +61,11 @@ class ReplyingMessageFragment : BaseFragment<ReplyingMessageViewModel, FragmentR
                 }
             }
             R.id.button_read -> {
-                MorseUtil.readMorse(context!!, message)
+                if (message.isNotEmpty() || message.isNotBlank()) {
+                    MorseUtil.readMorse(context!!, message)
+                }
+                else
+                    vibrate(50)
             }
             R.id.button_slice -> {
                 message += '/'
@@ -93,5 +100,15 @@ class ReplyingMessageFragment : BaseFragment<ReplyingMessageViewModel, FragmentR
         } else {
             vibrator.vibrate(millisecond)
         }
+    }
+
+    private fun messageRead() {
+        binding.buttonRead.isEnabled = true
+        binding.buttonRead.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_button_disabled, null)
+    }
+
+    private fun messageReadyToRead() {
+        binding.buttonRead.isEnabled = false
+        binding.buttonRead.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_button_default, null)
     }
 }

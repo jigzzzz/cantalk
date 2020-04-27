@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.everyone.cantalk.model.Chat
 import com.everyone.cantalk.model.User
-import com.everyone.cantalk.repository.remote.ChatRepository
-import com.everyone.cantalk.repository.remote.UserRepository
+import com.everyone.cantalk.repository.ChatRepository
+import com.everyone.cantalk.repository.UserRepository
 
 class MessageViewModel(private val userRepository: UserRepository, private val chatRepository: ChatRepository) : ViewModel() {
 

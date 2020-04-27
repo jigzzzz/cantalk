@@ -2,6 +2,7 @@ package com.everyone.cantalk.ui.fragment.readingmessage
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -68,4 +69,15 @@ class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentRea
         binding.buttonReply.visibility = View.GONE
         binding.buttonRead.visibility = View.GONE
     }
+
+    private fun messageRead() {
+        binding.buttonRead.isEnabled = false
+        binding.buttonRead.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_button_circle_disabled, null)
+    }
+
+    private fun messageReadyToRead() {
+        binding.buttonRead.isEnabled = true
+        binding.buttonRead.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_button_circle, null)
+    }
+
 }

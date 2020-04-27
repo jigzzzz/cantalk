@@ -3,7 +3,7 @@ package com.everyone.cantalk.ui.fragment.friend
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.everyone.cantalk.model.User
-import com.everyone.cantalk.repository.remote.UserRepository
+import com.everyone.cantalk.repository.UserRepository
 
 class FriendViewModel(private val userRepository: UserRepository) : ViewModel() {
 

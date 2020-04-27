@@ -1,7 +1,7 @@
 package com.everyone.cantalk.ui.register
 
 import androidx.lifecycle.ViewModel
-import com.everyone.cantalk.repository.remote.UserRepository
+import com.everyone.cantalk.repository.UserRepository
 
 class RegisterViewModel(private val userRepository: UserRepository) : ViewModel() {
 

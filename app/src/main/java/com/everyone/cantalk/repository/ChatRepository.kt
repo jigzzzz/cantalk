@@ -1,4 +1,4 @@
-package com.everyone.cantalk.repository.remote
+package com.everyone.cantalk.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +15,8 @@ class ChatRepository {
             if (INSTANCE == null) {
                 synchronized(ChatRepository::class.java) {
                     if (INSTANCE == null)
-                        INSTANCE = ChatRepository()
+                        INSTANCE =
+                            ChatRepository()
                 }
             }
             return INSTANCE!!

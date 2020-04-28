@@ -48,4 +48,5 @@
     <string name="content_description_picture">User Avatar</string>
     <string name="message_hint">Type a message...</string>
     <string name="no_message">There is no message</string>
+    <string name="example_message">Friend\'s Message</string>
 </resources>

@@ -23,8 +23,12 @@ class ReadingMessageViewModel(private val userRepository: UserRepository, privat
                 if (chat.receiver.equals(receiver) && chat.sender.equals(sender) || chat.receiver.equals(sender) && chat.sender.equals(receiver))
                     chats.add(chat)
             }
-            if (chats[chats.size-1].sender.equals(receiver))
-                liveChats.postValue(chats[chats.lastIndex].message)
+            if (chats.size > 0) {
+                if (chats[chats.size-1].sender.equals(receiver))
+                    liveChats.postValue(chats[chats.lastIndex].message)
+                else
+                    liveChats.postValue("")
+            }
             else
                 liveChats.postValue("")
         }

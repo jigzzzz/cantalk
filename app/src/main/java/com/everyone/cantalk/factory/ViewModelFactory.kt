@@ -39,7 +39,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(MainViewModel::class.java) -> MainViewModel(Injection.provideUserRepository())
-            modelClass.isAssignableFrom(ChatsViewModel::class.java) -> ChatsViewModel()
+            modelClass.isAssignableFrom(ChatsViewModel::class.java) -> ChatsViewModel(Injection.provideChatRepository())
             modelClass.isAssignableFrom(FriendViewModel::class.java) -> FriendViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(DeafblindChatViewModel::class.java) -> DeafblindChatViewModel(Injection.provideUserRepository())
             modelClass.isAssignableFrom(AddFriendViewModel::class.java) -> AddFriendViewModel(Injection.provideUserRepository())

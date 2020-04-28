@@ -16,6 +16,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import retrofit2.Call
+import retrofit2.Callback
 
 class MessageActivity : BaseActivity<MessageViewModel, ActivityMessageBinding>(MessageViewModel::class.java, R.layout.activity_message) {
 
@@ -45,6 +47,8 @@ class MessageActivity : BaseActivity<MessageViewModel, ActivityMessageBinding>(M
         super.setListener()
 
         service = Client.service
+        var lastMessage = false
+
 
         val messageAdapter = MessageAdapter(this)
         viewModel.getCurrentUser(intent?.getStringExtra(EXTRA_USER_ID)?:"").observe(this, Observer {
@@ -52,6 +56,9 @@ class MessageActivity : BaseActivity<MessageViewModel, ActivityMessageBinding>(M
             binding.name = friend.name
             viewModel.readMessage(load().id, friend.id).observe(this, Observer {chats ->
                 messageAdapter.setChats(chats)
+            })
+            viewModel.readLastMessage(load().id, friend.id).observe(this, Observer { message ->
+                lastMessage = message.isNotBlank() || message.isNotEmpty()
             })
         })
 
@@ -66,14 +73,30 @@ class MessageActivity : BaseActivity<MessageViewModel, ActivityMessageBinding>(M
         binding.buttonSend.setOnClickListener {
             notify = true
             if(binding.textMessage.text.toString().isNotBlank() || binding.textMessage.text.toString().isNotEmpty()){
-                var message = binding.textMessage.text.toString().replace(".", "")
-                message = message.replace("_", " ")
-                viewModel.sendMessage(Chat(load().id, friend.id, message))
-                binding.textMessage.setText("")
+                when(lastMessage) {
+                    true -> {
+                        showConfirmation("Do you really wanna send another message?", "", "If you have another chat, your last message that will show up on your friend", R.drawable.disabled_v1){
+                            var message = binding.textMessage.text.toString().replace(".", "")
+                            message = message.replace("_", " ")
+                            viewModel.sendMessage(Chat(load().id, friend.id, message))
+                            binding.textMessage.setText("")
 
-                if (notify)
-                    sendNotification(friend.id, load().name, message)
-                notify = false
+                            if (notify)
+                                sendNotification(friend.id, load().name, message)
+                            notify = false
+                        }
+                    }
+                    false -> {
+                        var message = binding.textMessage.text.toString().replace(".", "")
+                        message = message.replace("_", " ")
+                        viewModel.sendMessage(Chat(load().id, friend.id, message))
+                        binding.textMessage.setText("")
+
+                        if (notify)
+                            sendNotification(friend.id, load().name, message)
+                        notify = false
+                    }
+                }
             }
         }
     }
@@ -91,14 +114,24 @@ class MessageActivity : BaseActivity<MessageViewModel, ActivityMessageBinding>(M
                     val token : Token = it.getValue(Token::class.java) ?: Token()
                     val data : Notification = Notification(load().id, R.drawable.ic_notifications, message, name, friend.id)
                     val sender = Sender(data, token.token)
-                    val response = service.sendNotification(sender).execute()
-                    when(response.isSuccessful) {
-                        true -> {
-                            if (response.body()?.success != 1)
-                                Toast.makeText(this@MessageActivity, "Failed!!", Toast.LENGTH_SHORT).show()
+                    service.sendNotification(sender).enqueue(object : Callback<Response>{
+                        override fun onFailure(call: Call<Response>, t: Throwable) {
+
                         }
-                        false -> {}
-                    }
+
+                        override fun onResponse(
+                            call: Call<Response>,
+                            response: retrofit2.Response<Response>
+                        ) {
+                            when(response.isSuccessful) {
+                                true -> {
+                                    if (response.body()?.success != 1)
+                                        Toast.makeText(this@MessageActivity, "Failed!!", Toast.LENGTH_SHORT).show()
+                                }
+                                false -> {}
+                            }
+                        }
+                    })
                 }
             }
         })

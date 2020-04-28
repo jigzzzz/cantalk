@@ -68,7 +68,6 @@ class ChatActivity : BaseActivity<ChatViewModel, ActivityChatBinding>(ChatViewMo
                     when(User.checkFriend(friends, friendId)){
                         true -> {
                             viewModel.getCurrentUser(friendId).observe(this, Observer {
-                                Toast.makeText(this@ChatActivity, friendId, Toast.LENGTH_SHORT).show()
                                 viewModel.addFriend(load().id, it, {
                                     viewModel.addFriend(friendId, load(), {
                                         showError("Friend added", "Yeayy! You are successfully added your friend")

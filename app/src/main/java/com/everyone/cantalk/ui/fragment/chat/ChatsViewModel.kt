@@ -3,11 +3,12 @@ package com.everyone.cantalk.ui.fragment.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.everyone.cantalk.model.User
+import com.everyone.cantalk.repository.ChatRepository
 
-class ChatsViewModel : ViewModel() {
+class ChatsViewModel(private val chatRepository: ChatRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+    fun getListChat(sender : String) : LiveData<List<User>> = chatRepository.getListFriendChats(sender)
+    fun getListChatMessage(sender: String, userList: List<User>) : LiveData<List<String>> = chatRepository.getListFriendChatsMessage(sender, userList)
+
 }

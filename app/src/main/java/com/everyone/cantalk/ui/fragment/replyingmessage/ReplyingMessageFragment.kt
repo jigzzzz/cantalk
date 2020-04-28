@@ -14,15 +14,24 @@ import androidx.navigation.fragment.findNavController
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
 import com.everyone.cantalk.databinding.FragmentReplyingMessageBinding
-import com.everyone.cantalk.model.Chat
+import com.everyone.cantalk.model.*
+import com.everyone.cantalk.repository.remote.Client
+import com.everyone.cantalk.repository.remote.RetrofitService
 import com.everyone.cantalk.ui.fragment.readingmessage.ReplyingMessageViewModel
 import com.everyone.cantalk.util.MorseUtil
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import retrofit2.Call
+import retrofit2.Callback
 
 class ReplyingMessageFragment : BaseFragment<ReplyingMessageViewModel, FragmentReplyingMessageBinding>(ReplyingMessageViewModel::class.java, R.layout.fragment_replying_message), View.OnClickListener {
 
     private var message : String = ""
     private var userId : String = ""
     private lateinit var vibrator : Vibrator
+    private lateinit var service : RetrofitService
 
     override fun setListener() {
         super.setListener()
@@ -34,6 +43,7 @@ class ReplyingMessageFragment : BaseFragment<ReplyingMessageViewModel, FragmentR
         binding.buttonSpace.setOnClickListener(this)
         binding.buttonDot.setOnClickListener(this)
 
+        service = Client.service
         vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         userId = arguments?.getString("friendId") ?: ""
     }
@@ -100,6 +110,42 @@ class ReplyingMessageFragment : BaseFragment<ReplyingMessageViewModel, FragmentR
         } else {
             vibrator.vibrate(millisecond)
         }
+    }
+
+    private fun sendNotification(receiver: String, name: String, message: String) {
+        val tokens = FirebaseDatabase.getInstance().getReference("Tokens")
+        val query = tokens.orderByKey().equalTo(receiver)
+        query.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                p0.children.forEach{
+                    val token : Token = it.getValue(Token::class.java) ?: Token()
+                    val data : Notification = Notification(load().id, R.drawable.ic_notifications, message, name, userId)
+                    val sender = Sender(data, token.token)
+                    service.sendNotification(sender).enqueue(object : Callback<Response> {
+                        override fun onFailure(call: Call<Response>, t: Throwable) {
+
+                        }
+
+                        override fun onResponse(
+                            call: Call<Response>,
+                            response: retrofit2.Response<Response>
+                        ) {
+                            when(response.isSuccessful) {
+                                true -> {
+                                    if (response.body()?.success != 1)
+                                        Toast.makeText(context, "Failed!!", Toast.LENGTH_SHORT).show()
+                                }
+                                false -> {}
+                            }
+                        }
+                    })
+                }
+            }
+        })
     }
 
     private fun messageRead() {

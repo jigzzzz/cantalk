@@ -22,16 +22,19 @@ class ChatsFragment : BaseFragment<ChatsViewModel, FragmentChatBinding>(ChatsVie
 
     override fun setListener() {
         super.setListener()
-        getChats()
         val chatAdapter = ChatsAdapter()
         chatAdapter.onClickedListener(object : ChatsAdapter.SetOnItemClickedListener{
             override fun onClick(user: User) {
                 startActivity(MessageActivity.getIntent(context!!, user.id))
             }
         })
-        chatFriendsLiveData.observe(this, Observer {
-            chatAdapter.setFriendList(it)
+
+        viewModel.getListChat(load().id).observe(this, Observer {users->
+            viewModel.getListChatMessage(load().id, users).observe(this, Observer {messages ->
+                chatAdapter.setFriendList(users, messages)
+            })
         })
+
         binding.rvListChat.apply {
             setHasFixedSize(true)
             adapter = chatAdapter

@@ -37,6 +37,7 @@ class MessageAdapter(private val context: Context) : RecyclerView.Adapter<Messag
 
     fun setChats(chats: List<Chat>) {
         this.chats = chats
+        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {

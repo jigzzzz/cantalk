@@ -31,4 +31,26 @@ class MessageViewModel(private val userRepository: UserRepository, private val c
         return liveChats
     }
 
+    fun readLastMessage(sender: String, receiver: String) : LiveData<String> {
+        val liveChats: MutableLiveData<String> = MutableLiveData()
+        val chats: MutableList<Chat> = mutableListOf()
+
+        chatRepository.readMessage{
+            chats.clear()
+            it.children.forEach{dataSnapshot ->
+                val chat : Chat = dataSnapshot.getValue(Chat::class.java)!!
+                if (chat.receiver.equals(receiver) && chat.sender.equals(sender) || chat.receiver.equals(sender) && chat.sender.equals(receiver))
+                    chats.add(chat)
+            }
+            if (chats.size > 0){
+                if (chats[chats.size-1].sender.equals(sender))
+                    liveChats.postValue(chats[chats.lastIndex].message)
+                else
+                    liveChats.postValue("")
+            }
+        }
+
+        return liveChats
+    }
+
 }

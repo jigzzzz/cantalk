@@ -11,8 +11,12 @@ import androidx.navigation.fragment.findNavController
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
 import com.everyone.cantalk.databinding.FragmentReadingMessageBinding
+import com.everyone.cantalk.model.Token
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.util.MorseUtil
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.iid.FirebaseInstanceId
 
 class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentReadingMessageBinding>(ReadingMessageViewModel::class.java, R.layout.fragment_reading_message) {
 
@@ -54,6 +58,8 @@ class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentRea
                 MorseUtil.readMorse(context!!, res)
             })
         }
+
+        updateToken(FirebaseInstanceId.getInstance().token ?: "")
     }
 
     private fun displayMessage() {
@@ -78,6 +84,13 @@ class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentRea
     private fun messageReadyToRead() {
         binding.buttonRead.isEnabled = true
         binding.buttonRead.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_button_circle, null)
+    }
+
+    private fun updateToken(refreshToken: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val dbRef = FirebaseDatabase.getInstance().getReference("Tokens")
+        val token = Token(refreshToken)
+        dbRef.child(user?.uid ?: "").setValue(token)
     }
 
 }

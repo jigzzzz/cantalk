@@ -1,6 +1,14 @@
 # Cantalk
 It is an application that can help deafblind people who can't talk to his/her guardian or friend because of long distance they have. They can use this app to be their medium to communicate with each other.
 
+## User
+
+##### Deafblind Person
+A person who has disability
+
+##### Deafblind’s Friend/Guardian
+A person who has no disability
+
 ## How it works?
 The message that deafblind's person friend/guardian will be converted to morse code and the result of morse code will give an output with vibrate
 

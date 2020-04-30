@@ -23,3 +23,6 @@ this character will be converted to vibrate for 500 millisencond
 2. Open this project on your Android Studio
 3. Wait until the project finish to load
 4. Run the Code and make sure your device can vibrate
+
+## Download Application
+You can download the apk [here!!](https://github.com/jigzzzz/cantalk/blob/master/app.apk)

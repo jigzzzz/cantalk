@@ -45,7 +45,7 @@ class DeafblindChatActivity : BaseActivity<DeafblindChatViewModel, ActivityDeafb
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.app_bar_menu, menu)
+        menuInflater.inflate(R.menu.app_bar_menu_disabled, menu)
         return true
     }
 

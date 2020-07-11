@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.everyone.cantalk">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -15,16 +17,17 @@
         android:roundIcon="@mipmap/cantalk_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.addfriend.showing.QRCodeActivity"
+            android:parentActivityName=".ui.chat.guardian.ChatActivity"></activity>
         <activity
             android:name=".ui.chat.guardian.ChatActivity"
-            android:label="@string/title_activity_chat"></activity>
+            android:label="@string/title_activity_chat" />
         <activity
-            android:name="com.everyone.cantalk.ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.everyone.cantalk.ui.register.RegisterActivity"
+            android:name=".ui.register.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -34,27 +37,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.chat.deafblind.DeafblindChatActivity" />
+        <activity android:name=".ui.addfriend.scanning.AddFriendActivity" />
         <activity
-            android:name=".ui.chat.deafblind.DeafblindChatActivity" />
-        <activity android:name=".ui.addfriend.AddFriendActivity" />
-        <activity android:name=".ui.message.MessageActivity"
-            android:theme="@style/AppTheme.PrimaryNoActionBar"/>
-        <service android:name=".service.FirebaseIdService"
+            android:name=".ui.message.MessageActivity"
+            android:theme="@style/AppTheme.PrimaryNoActionBar" />
+
+        <service
+            android:name=".service.FirebaseIdService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".service.FirebaseMessaging"
+        <service
+            android:name=".service.FirebaseMessaging"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>

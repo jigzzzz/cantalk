@@ -1,17 +1,14 @@
 package com.everyone.cantalk.ui.fragment.readingmessage
 
-import android.os.Bundle
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseFragment
 import com.everyone.cantalk.databinding.FragmentReadingMessageBinding
-import com.everyone.cantalk.model.Token
 import com.everyone.cantalk.model.User
 import com.everyone.cantalk.util.MorseUtil
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +25,11 @@ class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentRea
 
         binding.textInformation.setOnClickListener {
             val text = MorseUtil.morseCodeConverter(binding.textInformation.text.toString())
+            MorseUtil.readMorse(context!!, text)
+        }
+
+        binding.textNoMessage.setOnClickListener {
+            val text = MorseUtil.morseCodeConverter(binding.textNoMessage.text.toString())
             MorseUtil.readMorse(context!!, text)
         }
 
@@ -58,13 +60,10 @@ class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentRea
                 MorseUtil.readMorse(context!!, res)
             })
         }
-
-        updateToken(FirebaseInstanceId.getInstance().token ?: "")
     }
 
     private fun displayMessage() {
         binding.textInformation.visibility = View.VISIBLE
-        binding.buttonReply.visibility = View.VISIBLE
         binding.buttonRead.visibility = View.VISIBLE
         binding.textNoMessage.visibility = View.GONE
     }
@@ -72,7 +71,6 @@ class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentRea
     private fun displayNoMessage() {
         binding.textNoMessage.visibility = View.VISIBLE
         binding.textInformation.visibility = View.GONE
-        binding.buttonReply.visibility = View.GONE
         binding.buttonRead.visibility = View.GONE
     }
 
@@ -84,13 +82,6 @@ class ReadingMessageFragment : BaseFragment<ReadingMessageViewModel, FragmentRea
     private fun messageReadyToRead() {
         binding.buttonRead.isEnabled = true
         binding.buttonRead.background = ResourcesCompat.getDrawable(resources, R.drawable.bg_button_circle, null)
-    }
-
-    private fun updateToken(refreshToken: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-        val dbRef = FirebaseDatabase.getInstance().getReference("Tokens")
-        val token = Token(refreshToken)
-        dbRef.child(user?.uid ?: "").setValue(token)
     }
 
 }

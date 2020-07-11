@@ -20,7 +20,7 @@
             android:id="@+id/text_information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{`There is a message from` + name}"
+            android:text="@{`There is a message from ` + name}"
             android:visibility="gone"
             android:textSize="20sp"
             android:layout_marginBottom="20dp"
@@ -38,20 +38,6 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"/>
 
-        <Button
-            android:id="@+id/button_reply"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="@string/reply_button_label"
-            android:textColor="@color/colorPrimary"
-            android:visibility="gone"
-            android:textAllCaps="false"
-            android:stateListAnimator="@null"
-            android:background="@drawable/bg_button_border"
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp"
-            android:layout_marginTop="50dp"/>
 
         <TextView
             android:id="@+id/text_no_message"
@@ -62,6 +48,20 @@
             android:textSize="20sp"
             android:layout_marginBottom="20dp"
             android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/button_reply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="@string/reply_button_label"
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:stateListAnimator="@null"
+            android:background="@drawable/bg_button_border"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:layout_marginTop="50dp"/>
 
     </LinearLayout>
 </layout>

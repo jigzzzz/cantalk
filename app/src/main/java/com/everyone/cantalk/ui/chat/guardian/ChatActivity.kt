@@ -6,18 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.everyone.cantalk.ui.addfriend.showing.QRCodeActivity
 import com.everyone.cantalk.R
 import com.everyone.cantalk.base.BaseActivity
 import com.everyone.cantalk.databinding.ActivityChatBinding
 import com.everyone.cantalk.model.User
-import com.everyone.cantalk.ui.addfriend.AddFriendActivity
+import com.everyone.cantalk.ui.addfriend.scanning.AddFriendActivity
 import com.everyone.cantalk.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -68,15 +68,21 @@ class ChatActivity : BaseActivity<ChatViewModel, ActivityChatBinding>(ChatViewMo
                     when(User.checkFriend(friends, friendId)){
                         true -> {
                             viewModel.getCurrentUser(friendId).observe(this, Observer {
+                                var userAdded = false
+                                var friendAdded = false
                                 viewModel.addFriend(load().id, it, {
-                                    viewModel.addFriend(friendId, load(), {
-                                        showError("Friend added", "Yeayy! You are successfully added your friend")
-                                    }, {
-                                        showError("Failed add your friend", "Please try again to add your friend")
-                                    })
+                                    userAdded = true
                                 }, {
                                     showError("Failed add your friend", "Please try again to add your friend")
                                 })
+                                viewModel.addFriend(friendId, load(), {
+                                    friendAdded = true
+                                }, {
+                                    showError("Failed add your friend", "Please try again to add your friend")
+                                })
+
+                                if (userAdded && friendAdded)
+                                    showError("Friend added", "Yeayy! You are successfully added your friend")
                             })
                         }
                         false -> {
@@ -100,6 +106,9 @@ class ChatActivity : BaseActivity<ChatViewModel, ActivityChatBinding>(ChatViewMo
                 startActivity(MainActivity.getIntent(this))
                 logout()
                 finish()
+            }
+            R.id.navigation_qrcode -> {
+                startActivity(QRCodeActivity.getIntent(this@ChatActivity))
             }
         }
         return super.onOptionsItemSelected(item)

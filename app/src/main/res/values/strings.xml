@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Cantalk</string>
-    <string name="cantalk_logo">Cantalk Logo</string>
+    <string name="app_name">TapChat</string>
+    <string name="cantalk_logo">TapChat Logo</string>
 
     <!--  Sign Up  -->
     <string name="name">Name</string>
@@ -25,7 +25,7 @@
     <string name="sp_password">password</string>
     <string name="sp_is_disabled">isDisabled</string>
     <string name="sp_is_login">isLogin</string>
-    
+
     <!--  Bottom Nav Bar Menu  -->
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_menu_chat">Chat</string>
@@ -46,7 +46,8 @@
     <string name="read">read</string>
     <string name="send">send</string>
     <string name="content_description_picture">User Avatar</string>
-    <string name="message_hint">Type a message...</string>
+    <string name="message_hint">Type a message…</string>
     <string name="no_message">There is no message</string>
     <string name="example_message">Friend\'s Message</string>
+    <string name="qr_code">QR Code</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import androidx.core.content.res.ResourcesCompat
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 class RegisterActivity : BaseActivity<RegisterViewModel, ActivityRegisterBinding>(RegisterViewModel::class.java, R.layout.activity_register), View.OnClickListener {
 
     private var disabled : Boolean = false
+    private var clicked : Boolean = false
     private lateinit var firebaseAuth: FirebaseAuth
 
     companion object {
@@ -48,6 +50,7 @@ class RegisterActivity : BaseActivity<RegisterViewModel, ActivityRegisterBinding
                         disabled = it
                         setButtonDefault(binding.btnYesDisabled)
                         setButtonBorder(binding.btnNoDisabled)
+                        clicked = true
                     }
                 }
             }
@@ -55,19 +58,27 @@ class RegisterActivity : BaseActivity<RegisterViewModel, ActivityRegisterBinding
                 disabled = false
                 setButtonDefault(binding.btnNoDisabled)
                 setButtonBorder(binding.btnYesDisabled)
+                clicked = true
             }
             R.id.btn_sign_up -> {
                 val name = if(binding.etName.text.toString().isEmpty()) "" else binding.etName.text.toString()
                 val email = if(binding.etEmail.text.toString().isEmpty()) "" else binding.etEmail.text.toString()
                 val password = if(binding.etPassword.text.toString().isEmpty()) "" else binding.etPassword.text.toString()
 
-                if(name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty())
+                if(name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && clicked)
                     register(name, disabled, email, password)
-                else {
-                    val fm = supportFragmentManager
-                    val alertDialog = AnnouncementDialogFragment.getInstance(R.drawable.error_v1, "Oops! Register is failed", "Please fill all the text field")
-                    alertDialog.show(fm, "text_field_empty_confirmation")
-                }
+                else if(name.isEmpty() && email.isEmpty() && password.isEmpty())
+                    showError("Oops! Register is failed", "Please fill all the text field")
+                else if (name.isEmpty())
+                    showError("Oops! Register is failed", "Please fill name text field")
+                else if (email.isEmpty())
+                    showError("Oops! Register is failed", "Please fill email text field")
+                else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+                    showError("Oops! Register is failed", "Please fill email text field with the right format")
+                else if (password.isEmpty())
+                    showError("Oops! Register is failed", "Please fill password text field")
+                else if (!clicked)
+                    showError("Oops! Register is failed", "Please choose if you are a disabled person or not")
             }
         }
     }

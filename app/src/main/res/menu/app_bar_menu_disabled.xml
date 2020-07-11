@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_qrcode"
-        android:title="@string/qr_code" />
-
-    <item
         android:id="@+id/navigation_logout"
         android:title="@string/title_logout_menu" />
 

@@ -28,7 +28,16 @@ class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>(LoginVi
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.btnSignIn.setOnClickListener {
-            login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+            val email = if(binding.etEmail.text.toString().isEmpty()) "" else binding.etEmail.text.toString()
+            val password = if(binding.etPassword.text.toString().isEmpty()) "" else binding.etPassword.text.toString()
+
+            if(email.isNotEmpty() && password.isNotEmpty())
+                login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+            else if (email.isEmpty())
+                showError("Oops! Register is failed", "Please fill email text field")
+            else if (password.isEmpty())
+                showError("Oops! Register is failed", "Please fill password text field")
+
         }
     }
 
